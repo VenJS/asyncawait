@@ -9,6 +9,7 @@ export default class Application extends EventEmitter {
   }
 
   _loading = document.getElementById("progress");
+  url = "https://swapi.boom.dev/api/planets";
 
   constructor() {
     super();
@@ -24,11 +25,13 @@ export default class Application extends EventEmitter {
 
   async _load() {
     this._startLoading();
-    const allPlanets = await fetch("https://swapi.boom.dev/api/planets")
+
+    const { planets, nextUrl } = await fetch(this.url)
       .then((response) => response.json())
-      .then((res) => res.results);
+      .then((res) => ({ planets: res.results, nextUrl: res.next }));
     this._stopLoading();
-    return allPlanets;
+    this.url = nextUrl;
+    return planets;
   }
   _create(planets) {
     const planetsDiv = document.getElementById("planets");
