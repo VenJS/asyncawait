@@ -28,9 +28,10 @@ const htmlPluginEntries = templateFiles.map(
 );
 
 module.exports = {
-  entry: {
-    app: path.resolve(environment.paths.source, "index.js"),
-  },
+  entry: [
+    "regenerator-runtime/runtime.js",
+    path.resolve(environment.paths.source, "index.js"),
+  ],
   output: {
     filename: "js/[name].js",
     path: environment.paths.output,
