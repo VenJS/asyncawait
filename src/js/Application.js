@@ -15,9 +15,7 @@ export default class Application extends EventEmitter {
     const button = document.querySelector(".button");
 
     button.addEventListener("click", async () => {
-      this._startLoading();
       const planets = await this._load();
-      this._stopLoading();
       this._create(planets);
     });
 
@@ -25,16 +23,17 @@ export default class Application extends EventEmitter {
   }
 
   async _load() {
-    return await fetch("https://swapi.boom.dev/api/planets")
+    this._startLoading();
+    const allPlanets = await fetch("https://swapi.boom.dev/api/planets")
       .then((response) => response.json())
       .then((res) => res.results);
+    this._stopLoading();
+    return allPlanets;
   }
   _create(planets) {
     const planetsDiv = document.getElementById("planets");
     planets.forEach((planet) => {
-      const planetName = document.createElement("li");
-      planetName.innerHTML = planet.name;
-      planetsDiv.appendChild(planetName);
+      this._render(planetsDiv, planet.name);
     });
   }
   _startLoading() {
@@ -42,5 +41,11 @@ export default class Application extends EventEmitter {
   }
   _stopLoading() {
     this._loading.className = "hidden";
+  }
+
+  _render(planetsDiv, planetName) {
+    const planetsName = document.createElement("li");
+    planetsName.innerHTML = planetName;
+    planetsDiv.appendChild(planetsName);
   }
 }
