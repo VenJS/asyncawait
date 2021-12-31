@@ -16,20 +16,20 @@ export default class Application extends EventEmitter {
     const button = document.querySelector(".button");
 
     button.addEventListener("click", async () => {
-      const planets = await this._load();
+      this._startLoading();
+      const planets = await this._load(this.url);
+      this._stopLoading;
       this._create(planets);
     });
 
     this.emit(Application.events.READY);
   }
 
-  async _load() {
-    this._startLoading();
-
-    const { planets, nextUrl } = await fetch(this.url)
+  async _load(url) {
+    const { planets, nextUrl } = await fetch(url)
       .then((response) => response.json())
       .then((res) => ({ planets: res.results, nextUrl: res.next }));
-    this._stopLoading();
+
     this.url = nextUrl;
     return planets;
   }
