@@ -30,11 +30,11 @@ html {
 
 .progress {
   .visible {
-    visibility: visible;
+    display: block;
   }
 
   .hidden {
-    visibility: hidden;
+    display: none;
   }
 }
 .planetsName {

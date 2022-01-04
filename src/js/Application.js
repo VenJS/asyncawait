@@ -34,11 +34,6 @@ export default class Application extends EventEmitter {
         .then((res) => res.results);
       this.planets = [...this.planets, ...planetsResponse];
     }
-
-    // .then((res) => ({ planets: res.results, nextUrl: res.next }));
-
-    // this.url = nextUrl;
-    // return planets;
   }
   _create(planets) {
     const planetsDiv = document.getElementById("planets");
