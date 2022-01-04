@@ -28,14 +28,15 @@ html {
   flex-flow: column;
 }
 
-.visible {
-  visibility: visible;
-}
+.progress {
+  .visible {
+    visibility: visible;
+  }
 
-.hidden {
-  visibility: hidden;
+  .hidden {
+    visibility: hidden;
+  }
 }
-
 .planetsName {
   font-size: 18px;
 }

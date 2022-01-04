@@ -21,8 +21,9 @@ export default class Application extends EventEmitter {
   async init() {
     this._startLoading();
     await this._load();
-    this._stopLoading();
+
     this._create(planets);
+    this._stopLoading();
   }
   async _load(url) {
     for (let i = 0; i <= 6; i++) {
@@ -46,10 +47,10 @@ export default class Application extends EventEmitter {
     });
   }
   _startLoading() {
-    this._loading.className = "visible";
+    this._loading.className = ".progress visible";
   }
   _stopLoading() {
-    this._loading.className = "hidden";
+    this._loading.className = ".progress hidden";
   }
 
   _render(planetsDiv, planetName) {
