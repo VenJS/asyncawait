@@ -45,7 +45,7 @@ export default class Application extends EventEmitter {
     this._loading.className = "progress visible";
   }
   _stopLoading() {
-    this._loading.className = "progress hidden";
+    this._loading.className = "progress";
   }
 
   _render(planetsDiv, planetName) {
