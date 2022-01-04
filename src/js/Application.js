@@ -17,8 +17,11 @@ export default class Application extends EventEmitter {
 
     button.addEventListener("click", async () => {
       this._startLoading();
-      const planets = await this._load(this.url);
-      this._stopLoading;
+      const { planets, nextUrl } = await this._load(this.url)
+        .then((response) => response.json())
+        .then((res) => ({ planets: res.results, nextUrl: res.next }));
+      this._stopLoading();
+      this.url = nextUrl;
       this._create(planets);
     });
 
@@ -26,12 +29,12 @@ export default class Application extends EventEmitter {
   }
 
   async _load(url) {
-    const { planets, nextUrl } = await fetch(url)
-      .then((response) => response.json())
-      .then((res) => ({ planets: res.results, nextUrl: res.next }));
+    return await fetch(url);
 
-    this.url = nextUrl;
-    return planets;
+    // .then((res) => ({ planets: res.results, nextUrl: res.next }));
+
+    // this.url = nextUrl;
+    // return planets;
   }
   _create(planets) {
     const planetsDiv = document.getElementById("planets");
