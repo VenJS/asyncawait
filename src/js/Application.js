@@ -10,26 +10,29 @@ export default class Application extends EventEmitter {
 
   _loading = document.getElementById("progress");
   url = "https://swapi.boom.dev/api/planets";
+  planets = [];
 
   constructor() {
     super();
-    const button = document.querySelector(".button");
-
-    button.addEventListener("click", async () => {
-      this._startLoading();
-      const { planets, nextUrl } = await this._load(this.url)
-        .then((response) => response.json())
-        .then((res) => ({ planets: res.results, nextUrl: res.next }));
-      this._stopLoading();
-      this.url = nextUrl;
-      this._create(planets);
-    });
+    this.init();
 
     this.emit(Application.events.READY);
   }
-
+  async init() {
+    this._startLoading();
+    await this._load();
+    this._stopLoading();
+    this._create(planets);
+  }
   async _load(url) {
-    return await fetch(url);
+    for (let i = 0; i <= 6; i++) {
+      const planetsResponse = await fetch(
+        i === 0 ? this.url : this.url + "?page=" + i
+      )
+        .then((response) => response.json())
+        .then((res) => res.results);
+      this.planets = [...this.planets, ...planetsResponse];
+    }
 
     // .then((res) => ({ planets: res.results, nextUrl: res.next }));
 
@@ -38,7 +41,7 @@ export default class Application extends EventEmitter {
   }
   _create(planets) {
     const planetsDiv = document.getElementById("planets");
-    planets.forEach((planet) => {
+    this.planets.forEach((planet) => {
       this._render(planetsDiv, planet.name);
     });
   }
