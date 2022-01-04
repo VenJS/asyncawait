@@ -47,10 +47,10 @@ export default class Application extends EventEmitter {
     });
   }
   _startLoading() {
-    this._loading.className = ".progress visible";
+    this._loading.className = "progress visible";
   }
   _stopLoading() {
-    this._loading.className = ".progress hidden";
+    this._loading.className = "progress hidden";
   }
 
   _render(planetsDiv, planetName) {
